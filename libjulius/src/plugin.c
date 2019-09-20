@@ -469,46 +469,14 @@ plugin_exec_process_result(Recog *recog)
   PLUGIN_ENTRY *p;
   FUNC_VOID func;
 
-  RecogProcess *rtmp, *r;
-  Sentence *s;
-  int i;
-  int len;
-  char *str;
-
   if (global_plugin_list == NULL) return;
-
-  /* for result_str(), return the best sentence string among processes */
-  s = NULL;
-  for(rtmp=recog->process_list;rtmp;rtmp=rtmp->next) {
-    if (! rtmp->live) continue;
-    if (rtmp->result.status >= 0 && rtmp->result.sentnum > 0) { /* recognition succeeded */
-      if (s == NULL || rtmp->result.sent[0].score > s->score) {
-	r = rtmp;
-	s = &(r->result.sent[0]);
-      }
-    }
-  }
-  if (s == NULL) {
-    str = NULL;
-  } else {
-    len = 0;
-    for(i=0;i<s->word_num;i++) len += strlen(r->lm->winfo->woutput[s->word[i]]) + 1;
-    str = (char *)mymalloc(len);
-    str[0]='\0';
-    for(i=0;i<s->word_num;i++) {
-      if (strlen(r->lm->winfo->woutput[s->word[i]]) == 0) continue;
-      if (strlen(str) > 0) strcat(str, " ");
-      strcat(str, r->lm->winfo->woutput[s->word[i]]);
-    }
-  }
 
   if ((id = plugin_get_id("result_best_str")) < 0) return;
   for(p=global_plugin_list[id];p;p=p->next) {
     func = (FUNC_VOID) p->func;
-    (*func)(str);
+    (*func)(recog->best_sentence);
   }
 
-  if (str != NULL) free(str);
 }
 
 

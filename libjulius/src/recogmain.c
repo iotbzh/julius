@@ -634,6 +634,46 @@ j_close_stream(Recog *recog)
 
 }
 
+
+/* computes the best sentence string among processes */
+
+static void compute_best_sentence(Recog * recog) {
+  RecogProcess *rtmp, *r;
+  Sentence *s = NULL;
+  char *str = NULL;
+  int len;
+  int i;
+
+  if (recog->best_sentence)
+	  free(recog->best_sentence);
+
+  for(rtmp=recog->process_list;rtmp;rtmp=rtmp->next) {
+  if (! rtmp->live) continue;
+	if (rtmp->result.status >= 0 && rtmp->result.sentnum > 0) { /* recognition succeeded */
+	if (s == NULL || rtmp->result.sent[0].score > s->score) {
+	   r = rtmp;
+	   s = &(r->result.sent[0]);
+	   }
+	 }
+   }
+   if (s == NULL) {
+     str = NULL;
+    } else {
+    len = 0;
+
+    for(i=0;i<s->word_num;i++) len += strlen(r->lm->winfo->woutput[s->word[i]]) + 1;
+	  str = (char *)mymalloc(len);
+	  str[0]='\0';
+	  for(i=0;i<s->word_num;i++) {
+	    if (strlen(r->lm->winfo->woutput[s->word[i]]) == 0) continue;
+	    if (strlen(str) > 0) strcat(str, " ");
+	    strcat(str, r->lm->winfo->woutput[s->word[i]]);
+	}
+  }
+
+   recog->best_sentence = str;
+}
+
 /**********************************************************************/
 /**********************************************************************/
 /**********************************************************************/
@@ -668,7 +708,10 @@ result_error(Recog *recog, int status)
   }
   if (ok_p) {			/* had some input */
     /* output as rejected */
+	 compute_best_sentence(recog);
+
     callback_exec(CALLBACK_RESULT, recog);
+    callback_exec(CALLBACK_BEST_RESULT, recog);
 #ifdef ENABLE_PLUGIN
     plugin_exec_process_result(recog);
 #endif
@@ -1356,8 +1399,11 @@ j_recognize_stream_core(Recog *recog)
       do_alignment_all(r, r->am->mfcc->param);
     }
 
+    compute_best_sentence(recog);
+
     /* output result */
     callback_exec(CALLBACK_RESULT, recog);
+    callback_exec(CALLBACK_BEST_RESULT, recog);
 #ifdef ENABLE_PLUGIN
     plugin_exec_process_result(recog);
 #endif

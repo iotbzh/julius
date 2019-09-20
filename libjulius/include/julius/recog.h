@@ -1266,6 +1266,9 @@ typedef struct __Recog__ {
    */
   void *hook;
 
+  /* computed best sentence */
+  char * best_sentence;
+
 } Recog;
 
 #endif /* __J_RECOG_H__ */
