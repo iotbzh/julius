@@ -265,7 +265,7 @@ typedef struct wchmm_info {
 
   int separated_word_count; ///< Number of words actually separated (linearlized) from the tree
 
-  char lccbuf[MAX_HMMNAME_LEN+7]; ///< Work area for HMM name conversion
+  char lccbuf[MAX_HMMNAME_LEN]; ///< Work area for HMM name conversion
   char lccbuf2[MAX_HMMNAME_LEN+7]; ///< Work area for HMM name conversion
 
   /* user-defined functions, used when this->lmvar == LM_NGRAM_USER */
