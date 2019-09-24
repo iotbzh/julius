@@ -1268,6 +1268,7 @@ typedef struct __Recog__ {
 
   /* computed best sentence */
   char * best_sentence;
+  LOGPROB best_sentence_score;
 
 } Recog;
 

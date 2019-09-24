@@ -672,6 +672,10 @@ static void compute_best_sentence(Recog * recog) {
   }
 
    recog->best_sentence = str;
+   if (s)
+	   recog->best_sentence_score = s->score;
+   else
+	   recog->best_sentence_score = 0;
 }
 
 /**********************************************************************/
