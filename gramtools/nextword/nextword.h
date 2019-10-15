@@ -18,11 +18,13 @@ extern char *readline();
 #ifdef HAVE_LIBREADLINE_HISTORY
 # if defined(HAVE_READLINE_HISTORY_H)
 #  include <readline/history.h>
+# elif defined(HAVE_EDITLINE_HISTORY_H)
+#  include <editline/history.h>
 # elif defined(HAVE_HISTORY_H)
 #  include <history.h>
-# else
-extern void add_history();
 # endif
+#else
+extern void add_history();
 #endif	/* HAVE_LIBREADLINE_HISTORY */
 
 typedef struct __wtoken__ {
