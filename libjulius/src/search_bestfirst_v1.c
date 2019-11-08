@@ -603,8 +603,8 @@ scan_word(NODE *now, HTK_Param *param, RecogProcess *r)
   int crossword_point = 0;
   boolean back_rescan = FALSE;
   boolean node_exist_p;
-  int tn;		       ///< Temporal pointer to current buffer
-  int tl;		       ///< Temporal pointer to previous buffer
+  int tn = 0;		       ///< Temporal pointer to current buffer
+  int tl = 0;		       ///< Temporal pointer to previous buffer
 
   /* store global values to local for rapid access */
   WORD_INFO *winfo;
