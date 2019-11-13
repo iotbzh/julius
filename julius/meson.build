@@ -31,6 +31,8 @@ if use_charconv != 'no'
 	julius_sources+='charconv.c'
 endif
 
+use_cfunc='none'
+
 if use_charconv=='auto'
 	if compiler.has_header('winnls.h')
 		use_cfunc='win32'
