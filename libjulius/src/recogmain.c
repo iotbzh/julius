@@ -870,6 +870,9 @@ j_recognize_stream_core(Recog *recog)
     /* reset reload flag here */
     j_reset_reload(recog);
 
+    if (recog->process_want_terminate)
+        break;
+
     if (!recog->process_active) {
       /* now sleeping, return */
       /* in the next call, we will resume from here */
