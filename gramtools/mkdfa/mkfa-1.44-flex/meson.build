@@ -1,4 +1,4 @@
-mkdfa_sources = [
+mkfa_sources = [
 	'gram.tab.c',
 	'main.c',
 	'voca.c',
@@ -7,6 +7,7 @@ mkdfa_sources = [
 	'triplet.c'
 ]
 
-executable('mkdfa', 
-			mkdfa_sources,
-			dependencies: readline_dep_lib)
+executable('mkfa', 
+			mkfa_sources,
+			dependencies: readline_dep_lib,
+			install: true)
