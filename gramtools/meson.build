@@ -73,8 +73,4 @@ subdir('accept_check')
 subdir('nextword')
 subdir('yomi2voca')
 
-# gram2sapixml uses iconv that seems to be deprecated in poky
-if not meson.is_cross_build()
-	subdir('gram2sapixml')
-endif
 subdir('dfa_determinize')
