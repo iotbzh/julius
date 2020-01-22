@@ -19,7 +19,7 @@ mictype = get_option('mictype')
 
 libsent_version='4.5'
 
-libsent_deps = [ dependency('OpenMp', required:false) ]
+libsent_deps = [ dependency('OpenMp', required:true) ]
 libsent_sources = []
 
 if mictype =='alsa'
